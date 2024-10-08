@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/08 12:28:39 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:31:28 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,7 @@ char	*get_next_line(int fd)
 			line_frag_size_now = 0;
 			line_frag_total_size = size_i_read_at_a_time;
 		}
-		while (i < b_read)
-		{
-			if (line_frag_size_now + 1 > line_frag_total_size)
-			{
-				new_size_line_frag = line_frag_size_now + size_i_read_at_a_time;
-				old_size_line_frag = line_frag_total_size;
-				line_frag = realloc_line_frag(line_frag, new_size_line_frag,
-						old_size_line_frag);
-				if (!line_frag)
-					return (NULL);
-				line_frag_total_size = new_size_line_frag;
-			}
-			ft_strcat(line_frag, &buffer[i], 1);
-			line_frag_size_now++;
-			if (buffer[i] == '\n')
-			{
-				line_frag[line_frag_size_now] = '\0';
-				return (line_frag);
-			}
-			i++;
-		}
+		next_line_frag(**line_frag, char *buffer, int *line_frag_size_now, int b_read);
 	}
 }
 
@@ -122,3 +102,30 @@ char	*ft_strlcpy(char *dest, const char *src, size_t size)
 	dest[i] = '\0';
 	return (strlen(src));
 }
+
+void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
+		int b_read) while (i < b_read)
+{
+	int	i;
+
+	i = 0;
+	while (i < b_read)
+	{
+		if (line_frag_size_now + 1 > line_frag_total_size)
+		{
+			*line_frag = realloc_line_frag(*line_frag, *new_size_line_frag,
+					*line_size_frag_now) if (!line_frag) return ;
+		}
+		(*line_frag)[*line_frag_size_now] = buffer[i];
+		// Agrega el carácter al final de line_frag
+		(*line_frag_size_now)++;                      
+		// Incrementa el tamaño actual
+		if (buffer[i] == '\n') // Si encuentra un salto de línea
+		{
+			(*line_frag)[*line_frag_size_now] = '\0'; // Termina la línea
+			return ;                                   // Termina la función
+		}
+		i++; // Incrementa el índice
+	}
+}
+
