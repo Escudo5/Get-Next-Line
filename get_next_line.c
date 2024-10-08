@@ -6,9 +6,12 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/07 17:38:16 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/08 11:35:23 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
+#include <stddef.h>
 
 char	*get_next_line(int fd)
 {
@@ -16,13 +19,14 @@ char	*get_next_line(int fd)
 	int		b_read;
 	char	*line_frag;
 	int		i;
-	int		size_ini;
+	int		size_i_read_at_a_time;
+	int		line_frag_size_now;
 
-	size_ini = BUFFER_SIZE;
+	size_i_read_at_a_time = BUFFER_SIZE;
 	line_frag = NULL;
 	while (true)
 	{
-		b_read = read(fd, buffer, BUFFER_SIZE);
+		b_read = read(fd, buffer, size_i_read_at_a_time);
 		if (b_read == 0)
 			return (NULL);
 		if (b_read == -1)
@@ -36,11 +40,20 @@ char	*get_next_line(int fd)
 		}
 		while (i < b_read)
 		{
-			ft_strlcpy(line_frag, buffer, size_ini);
+			if(line_frag_size_now + buffer > size_ini)
+			{
+				line_frag = realloc_line_frag(line_frag, new_size, old_size);
+				if (!line_frag)
+					return (NULL);
+			}
+			ft_strcat(line_frag, &buffer[i], 1);
 			if (buffer[i] == '\n')
-			
-				return ;
-		}
+			{
+				line_frag[tamaño_actual] = '\0';
+				return (line_frag);
+			}
+			i++;
+		}	
 	}
 }
 
