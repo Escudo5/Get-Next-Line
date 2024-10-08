@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/08 13:31:28 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:46:22 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_next_line(int fd)
 
 	size_i_read_at_a_time = BUFFER_SIZE;
 	line_frag = NULL;
-	while (true)
+	while (1)
 	{
 		b_read = read(fd, buffer, size_i_read_at_a_time);
 		if (b_read == 0)
@@ -43,7 +43,8 @@ char	*get_next_line(int fd)
 			line_frag_size_now = 0;
 			line_frag_total_size = size_i_read_at_a_time;
 		}
-		next_line_frag(**line_frag, char *buffer, int *line_frag_size_now, int b_read);
+		next_line_frag(**line_frag, char *buffer, int *line_frag_size_now,
+			int b_read);
 	}
 }
 
@@ -89,7 +90,8 @@ char	*realloc_line_frag(char *line_frag, int new_size, int old_size)
 
 char	*ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	size_t i;
+	size_t	i;
+
 	if (size == 0)
 		;
 	return (ft_strlen(src));
@@ -104,7 +106,7 @@ char	*ft_strlcpy(char *dest, const char *src, size_t size)
 }
 
 void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
-		int b_read) while (i < b_read)
+		int b_read)
 {
 	int	i;
 
@@ -114,18 +116,19 @@ void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
 		if (line_frag_size_now + 1 > line_frag_total_size)
 		{
 			*line_frag = realloc_line_frag(*line_frag, *new_size_line_frag,
-					*line_size_frag_now) if (!line_frag) return ;
+					*line_size_frag_now);
+			if (!line_frag)
+				return ;
 		}
 		(*line_frag)[*line_frag_size_now] = buffer[i];
 		// Agrega el carácter al final de line_frag
-		(*line_frag_size_now)++;                      
+		(*line_frag_size_now)++;
 		// Incrementa el tamaño actual
-		if (buffer[i] == '\n') // Si encuentra un salto de línea
+		if (buffer[i] == '\n') 
 		{
-			(*line_frag)[*line_frag_size_now] = '\0'; // Termina la línea
-			return ;                                   // Termina la función
+			(*line_frag)[*line_frag_size_now] = '\0';
+			return ; // Termina la función
 		}
 		i++; // Incrementa el índice
 	}
 }
-
