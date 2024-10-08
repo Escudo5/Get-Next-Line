@@ -6,12 +6,12 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/08 11:35:23 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:28:39 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <stddef.h>
+#include <stdlib.h>
 
 char	*get_next_line(int fd)
 {
@@ -21,6 +21,9 @@ char	*get_next_line(int fd)
 	int		i;
 	int		size_i_read_at_a_time;
 	int		line_frag_size_now;
+	int		new_size_line_frag;
+	int		old_size_line_frag;
+	int		line_frag_total_size;
 
 	size_i_read_at_a_time = BUFFER_SIZE;
 	line_frag = NULL;
@@ -34,26 +37,33 @@ char	*get_next_line(int fd)
 		i = 0;
 		if (line_frag == NULL)
 		{
-			line_frag = malloc(size_ini);
+			line_frag = malloc(size_i_read_at_a_time);
 			if (line_frag == NULL)
 				return (NULL);
+			line_frag_size_now = 0;
+			line_frag_total_size = size_i_read_at_a_time;
 		}
 		while (i < b_read)
 		{
-			if(line_frag_size_now + buffer > size_ini)
+			if (line_frag_size_now + 1 > line_frag_total_size)
 			{
-				line_frag = realloc_line_frag(line_frag, new_size, old_size);
+				new_size_line_frag = line_frag_size_now + size_i_read_at_a_time;
+				old_size_line_frag = line_frag_total_size;
+				line_frag = realloc_line_frag(line_frag, new_size_line_frag,
+						old_size_line_frag);
 				if (!line_frag)
 					return (NULL);
+				line_frag_total_size = new_size_line_frag;
 			}
 			ft_strcat(line_frag, &buffer[i], 1);
+			line_frag_size_now++;
 			if (buffer[i] == '\n')
 			{
-				line_frag[tamaño_actual] = '\0';
+				line_frag[line_frag_size_now] = '\0';
 				return (line_frag);
 			}
 			i++;
-		}	
+		}
 	}
 }
 
@@ -99,7 +109,7 @@ char	*realloc_line_frag(char *line_frag, int new_size, int old_size)
 
 char	*ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	size_t	i;
+	size_t i;
 	if (size == 0)
 		;
 	return (ft_strlen(src));
