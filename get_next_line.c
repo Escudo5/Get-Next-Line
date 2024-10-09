@@ -6,16 +6,42 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/09 11:26:04 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:49:28 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <stdlib.h>
+#include "get_next_line.h"
 
+void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
+		int b_read, int *line_frag_total_size, int size_i_read_at_a_time)
+{
+	int	i;
+
+	i = 0;
+	while (i < b_read)
+	{
+		if ((*line_frag_size_now) + 1 > *line_frag_total_size)
+		{
+			*line_frag_total_size += size_i_read_at_a_time;
+			*line_frag = realloc_line_frag(*line_frag, *line_frag_total_size,
+					*line_frag_size_now);
+			if (!*line_frag)
+				return ;
+		}
+		(*line_frag)[*line_frag_size_now] = buffer[i];
+		// Agrega el carácter al final de line_frag
+		(*line_frag_size_now)++;
+		if (buffer[i] == '\n')
+		{
+			(*line_frag)[*line_frag_size_now] = '\0';
+			return ; // Termina la función
+		}
+		i++;
+	}
+}
 char	*get_next_line(int fd)
 {
-	char	buffer[BUFFER_SIZE];
+	char	buffer[42];
 	int		b_read;
 	char	*line_frag;
 	int		i;
@@ -24,7 +50,7 @@ char	*get_next_line(int fd)
 	int		old_size_line_frag;
 	int		line_frag_total_size;
 
-	size_i_read_at_a_time = BUFFER_SIZE;
+	size_i_read_at_a_time = 42;
 	line_frag = NULL;
 	while (1)
 	{
@@ -64,32 +90,4 @@ char	*realloc_line_frag(char *line_frag, int new_size, int old_size)
 	new_line[i] = '\0';
 	free(line_frag);
 	return (new_line);
-}
-
-void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
-		int b_read, int *line_frag_total_size, int size_i_read_at_a_time)
-{
-	int	i;
-
-	i = 0;
-	while (i < b_read)
-	{
-		if ((*line_frag_size_now) + 1 > *line_frag_total_size)
-		{
-			*line_frag_total_size += size_i_read_at_a_time;
-			*line_frag = realloc_line_frag(*line_frag, *line_frag_total_size,
-					*line_frag_size_now);
-			if (!*line_frag)
-				return ;
-		}
-		(*line_frag)[*line_frag_size_now] = buffer[i];
-		// Agrega el carácter al final de line_frag
-		(*line_frag_size_now)++;
-		if (buffer[i] == '\n')
-		{
-			(*line_frag)[*line_frag_size_now] = '\0';
-			return ; // Termina la función
-		}
-		i++;
-	}
 }
