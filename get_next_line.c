@@ -6,14 +6,15 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/09 13:00:35 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:01:01 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
-		int b_read, int *line_frag_total_size, int size_i_read_at_a_time)
+static void	next_line_frag(char **line_frag, char *buffer,
+		int *line_frag_size_now, int b_read, int *line_frag_total_size,
+		int size_i_read_at_a_time)
 {
 	int	i;
 
@@ -29,22 +30,32 @@ static void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_n
 				return ;
 		}
 		(*line_frag)[*line_frag_size_now] = buffer[i];
-		// Agrega el carácter al final de line_frag
 		(*line_frag_size_now)++;
 		if (buffer[i] == '\n')
 		{
 			(*line_frag)[*line_frag_size_now] = '\0';
-			return ; // Termina la función
+			return ;
 		}
 		i++;
 	}
 }
+
+static int	initialize_line_frag(char **line_frag, int *line_frag_size_now,
+		int *line_frag_total_size, int size_i_read_at_a_time)
+{
+	*line_frag = malloc(size_i_read_at_a_time);
+	if (!line_frag)
+		return (0);
+	line_frag_size_now = 0;
+	line_frag_total_size = size_i_read_at_a_time;
+	return (1);
+}
+
 char	*get_next_line(int fd)
 {
 	char	buffer[42];
 	int		b_read;
 	char	*line_frag;
-	int		i;
 	int		size_i_read_at_a_time;
 	int		line_frag_size_now;
 	int		line_frag_total_size;
@@ -54,18 +65,12 @@ char	*get_next_line(int fd)
 	while (1)
 	{
 		b_read = read(fd, buffer, size_i_read_at_a_time);
-		if (b_read == 0)
+		if (b_read == 0 || b_read == -1)
 			return (NULL);
-		if (b_read == -1)
-			return (NULL);
-		i = 0;
 		if (line_frag == NULL)
 		{
-			line_frag = malloc(size_i_read_at_a_time);
-			if (line_frag == NULL)
-				return (NULL);
-			line_frag_size_now = 0; // NO hay caracteres en frag.
-			line_frag_total_size = size_i_read_at_a_time;
+			initialize_line_frag(&line_frag, &line_frag_size_now,
+				&line_frag_total_size, &size_i_read_at_a_time)
 		}
 		next_line_frag(&line_frag, buffer, &line_frag_size_now, b_read,
 			&line_frag_total_size, size_i_read_at_a_time);
