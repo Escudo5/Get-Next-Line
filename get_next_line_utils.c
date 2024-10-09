@@ -6,9 +6,11 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:14:09 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/08 13:44:26 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/09 11:35:25 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "get_next_line.h"
 
 static char	*ft_strcat(char *dest, const char *src, int size)
 {
@@ -68,29 +70,29 @@ char	*ft_strlcpy(char *dest, const char *src, size_t size)
 }
 
 void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
-		int b_read)
+		int b_read, int *line_frag_total_size, int size_i_read_at_a_time)
 {
 	int	i;
 
 	i = 0;
 	while (i < b_read)
 	{
-		if (line_frag_size_now + 1 > line_frag_total_size)
+		if ((*line_frag_size_now) + 1 > *line_frag_total_size)
 		{
-			*line_frag = realloc_line_frag(*line_frag, *new_size_line_frag,
-					*line_size_frag_now);
-			if (!line_frag)
+			*line_frag_total_size += size_i_read_at_a_time;
+			*line_frag = realloc_line_frag(*line_frag, *line_frag_total_size,
+					*line_frag_size_now);
+			if (!*line_frag)
 				return ;
 		}
 		(*line_frag)[*line_frag_size_now] = buffer[i];
 		// Agrega el carácter al final de line_frag
 		(*line_frag_size_now)++;
-		// Incrementa el tamaño actual
-		if (buffer[i] == '\n') 
+		if (buffer[i] == '\n')
 		{
 			(*line_frag)[*line_frag_size_now] = '\0';
 			return ; // Termina la función
 		}
-		i++; // Incrementa el índice
+		i++;
 	}
 }
