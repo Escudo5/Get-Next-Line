@@ -6,13 +6,13 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/09 12:00:01 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:00:35 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
+static void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
 		int b_read, int *line_frag_total_size, int size_i_read_at_a_time)
 {
 	int	i;
@@ -72,7 +72,7 @@ char	*get_next_line(int fd)
 	}
 }
 
-char	*realloc_line_frag(char *line_frag, int new_size, int old_size)
+static char	*realloc_line_frag(char *line_frag, int new_size, int old_size)
 {
 	char	*new_line;
 	int		i;

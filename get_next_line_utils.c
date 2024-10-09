@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:14:09 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/09 12:25:34 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:02:17 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 	return (dest);
 }
 */
-
 
 char	*realloc_line_frag(char *line_frag, int new_size, int old_size)
 {
