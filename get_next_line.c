@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/09 11:49:28 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/09 12:00:01 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	*get_next_line(int fd)
 	int		i;
 	int		size_i_read_at_a_time;
 	int		line_frag_size_now;
-	int		old_size_line_frag;
 	int		line_frag_total_size;
 
 	size_i_read_at_a_time = 42;
