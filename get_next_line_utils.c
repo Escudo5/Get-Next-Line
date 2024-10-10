@@ -6,33 +6,53 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:14:09 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/09 13:02:17 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:41:00 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-/*static char	*ft_strcat(char *dest, const char *src, int size)
+char	*ft_strdup(const char *s)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	char	*dup;
 
 	i = 0;
-	j = 0;
-	while (dest[i] != '\0')
+	while (s[i] != '\0')
 	{
 		i++;
 	}
-	while (j < size && src[j] != '\0')
+	dup = (char *)malloc((i + 1) * sizeof(char));
+	if (dup == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
 	{
-		dest[i] = src[j];
+		dup[i] = s[i];
 		i++;
-		j++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	dup[i] = '\0';
+	return (dup);
 }
-*/
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	s1_len;
+	size_t	s2_len;
+	char	*joined;
+
+	if ((s1 == NULL || s2 == NULL))
+		return (NULL);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	joined = (char *)malloc((s1_len + s2_len + 1) * sizeof(char));
+	if (joined == NULL)
+		return (NULL);
+	ft_memcpy(joined, s1, s1_len);
+	ft_memcpy(joined + s1_len, s2, s2_len);
+	joined[s1_len + s2_len] = '\0';
+	return (joined);
+}
 
 char	*realloc_line_frag(char *line_frag, int new_size, int old_size)
 {
@@ -71,30 +91,4 @@ char	*realloc_line_frag(char *line_frag, int new_size, int old_size)
 }
 */
 
-void	next_line_frag(char **line_frag, char *buffer, int *line_frag_size_now,
-		int b_read, int *line_frag_total_size, int size_i_read_at_a_time)
-{
-	int	i;
 
-	i = 0;
-	while (i < b_read)
-	{
-		if ((*line_frag_size_now) + 1 > *line_frag_total_size)
-		{
-			*line_frag_total_size += size_i_read_at_a_time;
-			*line_frag = realloc_line_frag(*line_frag, *line_frag_total_size,
-					*line_frag_size_now);
-			if (!*line_frag)
-				return ;
-		}
-		(*line_frag)[*line_frag_size_now] = buffer[i];
-		// Agrega el carácter al final de line_frag
-		(*line_frag_size_now)++;
-		if (buffer[i] == '\n')
-		{
-			(*line_frag)[*line_frag_size_now] = '\0';
-			return ; // Termina la función
-		}
-		i++;
-	}
-}
