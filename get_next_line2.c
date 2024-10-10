@@ -12,13 +12,10 @@
 
 #include "get_next_line.h"
 
-
-
-
 static int	malloc_line_frag(char **line, int *line_frag_size_now,
 		int *line_frag_total_size, int size_i_read_at_a_time)
 {
-	*line_frag = malloc(size_i_read_at_a_time);
+	*line_frag = malloc(BUFFER_SIZE);
 	if (!line_frag)
 		return (0);
 	*line_frag_size_now = 0;
@@ -58,16 +55,6 @@ char	*get_next_line(int fd)
 		line = temp;
 	}
 	
-
-
-
-
-	
-		{
-			if (!malloc_line_frag(&line_frag, &line_frag_size_now,
-					&line_frag_total_size, BUFFER_SIZE))
-				return (NULL);
-		}
 		
 }
 
