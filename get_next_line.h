@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
+/*   By: escudo5 <escudo5@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:14:24 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/10 16:38:50 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/11 11:10:20 by escudo5          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@
 #  define BUFFER_SIZE 42
 # endif
 
-static char	*realloc_line_frag(char *line_frag, int new_size, int old_size);
+char	*ft_strdup(const char *s);
+size_t	ft_strlen(const char *str);
+char	*ft_substr(const char *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
-static int	malloc_line_frag(char **line_frag, int *line_frag_size_now,
-				int *line_frag_total_size, int size_i_read_at_a_time);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: escudo5 <escudo5@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:14:09 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/11 10:46:27 by escudo5          ###   ########.fr       */
+/*   Updated: 2024/10/11 11:10:12 by escudo5          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,18 @@ char	*ft_strdup(const char *s)
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
 }
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
@@ -63,6 +75,25 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	return (substr);
 }
 
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	size_t				i;
+	unsigned char		*d;
+	const unsigned char	*s;
+
+	d = (unsigned char *)dest;
+	s = (unsigned char *)src;
+	if (dest == NULL && src == NULL)
+		return (NULL);
+	i = 0;
+	while (i < n)
+	{
+		d[i] = s[i];
+		i++;
+	}
+	return (dest);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	s1_len;
@@ -82,41 +113,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (joined);
 }
 
-char	*realloc_line_frag(char *line_frag, int new_size, int old_size)
-{
-	char	*new_line;
-	int		i;
-
-	new_line = malloc(new_size);
-	if (!new_line)
-		return (NULL);
-	i = 0;
-	while (i < old_size)
-	{
-		new_line[i] = line_frag[i];
-		i++;
-	}
-	new_line[i] = '\0';
-	free(line_frag);
-	return (new_line);
-}
-
-/*char	*ft_strlcpy(char *dest, const char *src, size_t size)
-{
-	size_t	i;
-
-	if (size == 0)
-		;
-	return (ft_strlen(src));
-	i = 0;
-	while (i < size - 1 && src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (ft_strlen(src));
-}
-*/
 
 
