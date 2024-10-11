@@ -6,7 +6,7 @@
 /*   By: escudo5 <escudo5@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/11 11:12:13 by escudo5          ###   ########.fr       */
+/*   Updated: 2024/10/11 11:23:32 by escudo5          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,21 @@ char	*get_next_line(int fd)
 	char	buffer[BUFFER_SIZE];
 	int		b_read;
 	char	*line;
-	int	i;
-	char *temp;
 	line = NULL;
 
 	if (remain)
 		line = ft_strdup(remain);
 			free(remain);
 	remain = NULL;
-	while (b_read = read(fd, buffer, BUFFER_SIZE) > 0)
+	while ((b_read = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
 		line =append_buffer(line, buffer, b_read, &remain);
 		if (remain)
 			return (line);
 	}
 	if (b_read == 0 && line)
-	{
-		return (line);
-		return (NULL);
-	}
-	if (line == NULL)
-		line = ft_strdup(buffer);
+			return (line);
+	return (NULL);
 }
 
 
