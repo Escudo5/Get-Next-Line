@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:14:24 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/14 14:20:05 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:14:02 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdio.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 90
 # endif
 
 char	*ft_strdup(const char *s);

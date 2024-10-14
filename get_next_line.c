@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/14 14:26:33 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:51:51 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*append_buffer(char *line, char *buffer, int b_read, char **remain)
 			temp = ft_strjoin(line, ft_substr(buffer, 0, i + 1));
 			free(line);
 			line = temp;
+			free(*remain);
 			*remain = ft_strdup(&buffer[i + 1]);
 			return (line);
 		}
@@ -56,9 +57,12 @@ char	*get_next_line(int fd)
 	b_read = read(fd, buffer, BUFFER_SIZE);
 	while ((b_read) > 0)
 	{
+		buffer[b_read] = '\0';
+		printf("Buffer leído: %.*s\n", b_read, buffer);
 		line = append_buffer(line, buffer, b_read, &remain);
 		if (remain)
 			return (line);
+		b_read = read(fd, buffer, BUFFER_SIZE);
 	}
 	if (b_read == 0 && line)
 		return (line);
