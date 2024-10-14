@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: escudo5 <escudo5@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:14:09 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/11 11:10:12 by escudo5          ###   ########.fr       */
+/*   Updated: 2024/10/14 14:17:13 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ size_t	ft_strlen(const char *str)
 	}
 	return (i);
 }
+
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	size_t	s_len;
@@ -112,6 +113,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	joined[s1_len + s2_len] = '\0';
 	return (joined);
 }
-
-
-

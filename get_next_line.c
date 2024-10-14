@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: escudo5 <escudo5@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/11 11:23:32 by escudo5          ###   ########.fr       */
+/*   Updated: 2024/10/14 14:26:33 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*append_buffer(char	*line, char	*buffer, int b_read, char **remain)
+char	*append_buffer(char *line, char *buffer, int b_read, char **remain)
 {
-	int i;
+	int		i;
 	char	*temp;
 
 	i = 0;
@@ -32,7 +32,7 @@ char	*append_buffer(char	*line, char	*buffer, int b_read, char **remain)
 	}
 	if (line == NULL)
 		line = ft_strdup(buffer);
-	else 
+	else
 	{
 		temp = ft_strjoin(line, buffer);
 		free(line);
@@ -40,28 +40,50 @@ char	*append_buffer(char	*line, char	*buffer, int b_read, char **remain)
 	}
 	return (line);
 }
+
 char	*get_next_line(int fd)
 {
-	static char *remain;
-	char	buffer[BUFFER_SIZE];
-	int		b_read;
-	char	*line;
-	line = NULL;
+	static char	*remain;
+	char		buffer[BUFFER_SIZE];
+	int			b_read;
+	char		*line;
 
+	line = NULL;
 	if (remain)
 		line = ft_strdup(remain);
-			free(remain);
+	free(remain);
 	remain = NULL;
-	while ((b_read = read(fd, buffer, BUFFER_SIZE)) > 0)
+	b_read = read(fd, buffer, BUFFER_SIZE);
+	while ((b_read) > 0)
 	{
-		line =append_buffer(line, buffer, b_read, &remain);
+		line = append_buffer(line, buffer, b_read, &remain);
 		if (remain)
 			return (line);
 	}
 	if (b_read == 0 && line)
-			return (line);
+		return (line);
 	return (NULL);
 }
 
 
+int main()
+{
+	int fd;
+	char *line;
 
+	fd = open("hola.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error abriendo el archivo");
+		return (1);
+	}
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line); // Sin "\n".
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	return (0);
+}
