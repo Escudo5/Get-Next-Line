@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/14 16:51:51 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:23:06 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char	*get_next_line(int fd)
 	while ((b_read) > 0)
 	{
 		buffer[b_read] = '\0';
-		printf("Buffer leído: %.*s\n", b_read, buffer);
 		line = append_buffer(line, buffer, b_read, &remain);
 		if (remain)
 			return (line);
@@ -70,12 +69,12 @@ char	*get_next_line(int fd)
 }
 
 
-int main()
+/*int main()
 {
 	int fd;
 	char *line;
 
-	fd = open("hola.txt", O_RDONLY);
+	fd = open("chistes.txt", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("Error abriendo el archivo");
@@ -90,4 +89,4 @@ int main()
 	}
 	close(fd);
 	return (0);
-}
+}*/
