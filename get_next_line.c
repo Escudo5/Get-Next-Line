@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/16 11:12:20 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:17:54 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,11 @@ char	*get_next_line(int fd)
 			return (line);
 		b_read = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (b_read < 0)
-		free(line);
+	if (b_read == 0 && line)
+		return(line);
+	free(line);
 	return (NULL);
-	if (line)
-		return (line);
-	return (NULL);
+	
 }
 
 int	main(void)
@@ -93,7 +92,7 @@ int	main(void)
 	line = get_next_line(fd);
 	while (line)
 	{
-		printf("%s", line); 
+		printf("%s", line);
 		free(line);
 		line = get_next_line(fd);
 	}
