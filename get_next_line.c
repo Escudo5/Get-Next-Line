@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:12:42 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/15 12:44:08 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/16 10:57:12 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,23 @@ char	*append_buffer(char *line, char *buffer, int b_read, char **remain)
 {
 	int		i;
 	char	*temp;
+	char	*substring;
 
 	i = 0;
 	while (i < b_read)
 	{
 		if (buffer[i] == '\n')
 		{
-			temp = ft_strjoin(line, ft_substr(buffer, 0, i + 1));
+			substring = ft_substr(buffer, 0, i + 1);
+			temp = ft_strjoin(line, substring);
 			free(line);
+			free(substring);
 			line = temp;
 			free(*remain);
-			*remain = ft_strdup(&buffer[i + 1]);
+			if (i + 1 < b_read)
+				*remain = ft_strdup(&buffer[i + 1]);
+			else
+				*remain = NULL;
 			return (line);
 		}
 		i++;
@@ -54,8 +60,8 @@ char	*get_next_line(int fd)
 	{
 		line = ft_strdup(remain);
 		free(remain);
+		remain = NULL;
 	}
-	remain = NULL;
 	b_read = read(fd, buffer, BUFFER_SIZE);
 	while ((b_read) > 0)
 	{
@@ -65,15 +71,18 @@ char	*get_next_line(int fd)
 			return (line);
 		b_read = read(fd, buffer, BUFFER_SIZE);
 	}
-	if (b_read == 0 && line)
+	if (b_read < 0)
+		free(line);
+	return (NULL);
+	if (line)
 		return (line);
 	return (NULL);
 }
 
-int main()
+int	main(void)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	fd = open("chistes.txt", O_RDONLY);
 	if (fd == -1)
