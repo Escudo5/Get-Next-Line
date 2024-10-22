@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 11:14:09 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/22 12:47:09 by smarquez         ###   ########.fr       */
+/*   Created: 2024/10/22 12:22:41 by smarquez          #+#    #+#             */
+/*   Updated: 2024/10/22 12:34:36 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,19 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	unsigned char	*p;
-	size_t			i;
+	size_t			total_size;
+	unsigned char	*ptr;
 
-	p = malloc(size * nmemb);
-	if (p == NULL)
+	ptr = malloc(size * nmemb);
+	if (ptr == NULL)
 		return (NULL);
-	i = 0;
-	while (i < (size * nmemb))
+	total_size = 0;
+	while (total_size < (size * nmemb))
 	{
-		p[i] = 0;
-		i++;
+		ptr[total_size] = 0;
+		total_size++;
 	}
-	return ((void *)p);
+	return ((void *)ptr);
 }
 
 char	*ft_strjoin(char *s1, char *s2)

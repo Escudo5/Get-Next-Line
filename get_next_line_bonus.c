@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 12:51:23 by pablalva          #+#    #+#             */
-/*   Updated: 2024/10/22 12:45:24 by smarquez         ###   ########.fr       */
+/*   Created: 2024/10/22 12:19:31 by smarquez          #+#    #+#             */
+/*   Updated: 2024/10/22 12:19:49 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static void	take_the_rest(char **pre_line, char **line)
 {
@@ -67,37 +67,65 @@ static char	*make_line(char *pre_line, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*pre_line = NULL;
+	static char	*pre_line[MAX_FD];
 	char		*line;
 
 	line = NULL;
-	if (fd == -1)
+	if (fd < 0 || fd >= MAX_FD)
 		return (NULL);
-	pre_line = make_line(pre_line, fd);
-	if (pre_line == NULL)
+	pre_line[fd] = make_line(pre_line[fd], fd);
+	if (pre_line[fd] == NULL)
 		return (NULL);
-	take_the_rest(&pre_line, &line);
+	take_the_rest(&pre_line[fd], &line);
 	return (line);
 }
 
-/*int main()
+/*int	main(void)
 {
-	int fd;
-	char *line;
+	int	fd1 = open("archivo1.txt", O_RDONLY);
+	int	fd2 = open("archivo2.txt", O_RDONLY);
+	int	fd3 = open("archivo3.txt", O_RDONLY);
 
-	fd = open("chistes.txt", O_RDONLY);
-	if (fd == -1)
+	if (fd1 == -1 || fd2 == -1 || fd3 == -1)
 	{
-		printf("Error abriendo el archivo\n");
+		printf("Error al abrir uno de los archivos.\n");
 		return (1);
 	}
-	line = get_next_line(fd);
-	while (line)
+	char	*line1;
+	char	*line2;
+	char	*line3;
+	int		line_number = 1;
+
+	while (1)
 	{
-		printf("%s",line);
-		free(line);
-		line = get_next_line(fd);
+		line1 = get_next_line(fd1);
+		line2 = get_next_line(fd2);
+		line3 = get_next_line(fd3);
+
+		if (!line1 && !line2 && !line3)
+			break;
+		if (line1)
+		{
+			printf("Archivo 1, línea %d: %s", line_number, line1);
+			free(line1);
+		}
+		if (line2)
+		{
+			printf("Archivo 2, línea %d: %s", line_number, line2);
+			free(line2);
+		}
+		if (line3)
+		{
+			printf("Archivo 3, línea %d: %s", line_number, line3);
+			free(line3);
+		}
+
+		line_number++;  
 	}
-	close(fd);
+
+	close(fd1);
+	close(fd2);
+	close(fd3);
+
 	return (0);
 }*/
