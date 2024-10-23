@@ -6,7 +6,7 @@
 /*   By: smarquez <smarquez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 12:22:41 by smarquez          #+#    #+#             */
-/*   Updated: 2024/10/22 12:34:36 by smarquez         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:18:20 by smarquez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,19 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	size_t			total_size;
-	unsigned char	*ptr;
+	unsigned char	*p;
+	size_t			i;
 
-	ptr = malloc(size * nmemb);
-	if (ptr == NULL)
+	p = malloc(size * nmemb);
+	if (p == NULL)
 		return (NULL);
-	total_size = 0;
-	while (total_size < (size * nmemb))
+	i = 0;
+	while (i < (size * nmemb))
 	{
-		ptr[total_size] = 0;
-		total_size++;
+		p[i] = 0;
+		i++;
 	}
-	return ((void *)ptr);
+	return ((void *)p);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
